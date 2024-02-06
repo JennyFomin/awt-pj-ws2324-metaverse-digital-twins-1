@@ -1,6 +1,6 @@
 import time
 import random
-import paho.mqtt.client as mqtt
+
 import threading
 
 # MQTT broker settings
@@ -11,6 +11,8 @@ control_topic = "light_control"
 
 # Initial state of the artificial light
 artificial_light_on = False
+
+energyConsumption = 0
 
 # Lock for synchronizing access to shared variables
 lock = threading.Lock()
@@ -40,7 +42,7 @@ def simulate_light_sensor():
         # Publish the simulated data to the sensor topic
 
         # Print the simulated data every 10 seconds
-        print(f"Time of Day: {time_of_day}, Total Light Intensity: {total_intensity}")
+        print(f"Time of Day: {time_of_day}, Total Light Intensity: {total_intensity} ")
         time.sleep(10)
 
 
@@ -86,9 +88,14 @@ def user_input():
 
 def scenario1():
     global artificial_light_on
+    global energyConsumption
+
     for _ in range(144):  # Simulate a full 24-hour day (144 intervals of 10 seconds each)
         # Simulate different light sources and conditions
         time_of_day = _ // 6  # 6 intervals per hour, so time_of_day ranges from 0 to 23
+
+        if artificial_light_on:
+            energyConsumption += (60 * 10 * 60) # for a 60 watt LED in 10 minutes
 
         # Adjust light intensity based on time of day
         if 6 <= time_of_day < 18:  # Daytime
@@ -113,7 +120,7 @@ def scenario1():
         total_intensity = base_intensity + artificial_light_intensity
 
         # Print the simulated data every 10 seconds
-        print(f"Time of Day: {time_of_day}, Total Light Intensity: {total_intensity}")
+        print(f"Time of Day: {time_of_day}, Total Light Intensity: {total_intensity}, Total Energy Consumption: {energyConsumption}")
         time.sleep(10)
 
 
