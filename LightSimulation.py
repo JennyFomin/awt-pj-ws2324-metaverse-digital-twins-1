@@ -1,12 +1,12 @@
 import time
 import random
-
 import threading
+import paho.mqtt.client as mqtt
 
 # MQTT broker settings
-broker_address = "your_broker_address"
-broker_port = 1883
-sensor_topic = "light_sensor_data"
+mqtt_broker = "localhost"
+mqtt_port = 1883
+mqtt_topic = "smart_home/simulation"
 control_topic = "light_control"
 
 # Initial state of the artificial light
@@ -17,44 +17,14 @@ energyConsumption = 0
 # Lock for synchronizing access to shared variables
 lock = threading.Lock()
 
+# initialize MQTT Client 
+mqtt_client = mqtt.Client()
 
-def simulate_light_sensor():
-    while True:
-        # Simulate different light sources and conditions
-        time_of_day = time.localtime().tm_hour
+# Callback Funktion für erfolgreiche Verbindung
+def on_connect(client, userdata, flags, rc):
+    print(f"Verbunden mit MQTT Broker mit Resultat-Code: {rc}")
 
-        # Adjust light intensity based on time of day
-        if 6 <= time_of_day < 18:  # Daytime
-            base_intensity = random.randint(50, 100)  # Simulate sunlight
-        else:  # Nighttime
-            base_intensity = random.randint(0, 30)  # Simulate darkness
-
-        # Toggle the artificial light based on control commands
-        with lock:
-            if artificial_light_on:
-                artificial_light_intensity = random.randint(50, 100)
-            else:
-                artificial_light_intensity = 0
-
-        # Calculate the total light intensity
-        total_intensity = base_intensity + artificial_light_intensity
-
-        # Publish the simulated data to the sensor topic
-
-        # Print the simulated data every 10 seconds
-        print(f"Time of Day: {time_of_day}, Total Light Intensity: {total_intensity} ")
-        time.sleep(10)
-
-
-def sunlight_change():
-    while True:
-        # Change sunlight mode every two minutes
-        with lock:
-            print("Changing sunlight mode...")
-        time.sleep(120)
-
-
-# Callback function for handling control messages
+# Callback Funktion für eingehende Nachrichten
 def on_message(client, userdata, msg):
     global artificial_light_on
     payload = msg.payload.decode("utf-8")
@@ -69,7 +39,58 @@ def on_message(client, userdata, msg):
                 print("Artificial Light is OFF")
 
 
-# Set the callback function for incoming message
+# set Callback function
+mqtt_client.on_connect = on_connect
+mqtt_client.on_message = on_message
+
+# Connect to MQTT Broker 
+mqtt_client.connect(mqtt_broker, mqtt_port, 60)
+
+# Starte den Netzwerk-Schleifen-Thread im Hintergrund
+mqtt_client.loop_start()
+
+def publish_data(time_of_day, total_light_intensity, energy_consumption):
+    # create message as JSON-String
+    message = f'{{"time_of_day": {time_of_day}, "total_light_intensity": {total_light_intensity}, "total_energy_consumption": {energy_consumption}}}'
+    # publish message to defined topic
+    mqtt_client.publish(mqtt_topic, message)
+    print(f"Veröffentlichte Daten: {message}")
+
+def simulate_light_sensor():
+    while True:
+        # Simulate different light sources and conditions
+        time_of_day = time.localtime().tm_hour
+
+        # Adjust light intensity based on time of day
+        if 6 <= time_of_day < 18:  # Daytime
+            base_intensity = random.randint(50, 100)  # Simuliere Sonnenlicht
+        else:  # Nighttime
+            base_intensity = random.randint(0, 30)  # Simuliere Dunkelheit
+
+        # Toggle the artificial light based on control commands
+        with lock:
+            if artificial_light_on:
+                artificial_light_intensity = random.randint(50, 100)
+            else:
+                artificial_light_intensity = 0
+
+        # Calculate the total light intensity
+        total_intensity = base_intensity + artificial_light_intensity
+
+        # Publish the simulated data to the sensor topic
+        publish_data(time_of_day, total_intensity, energyConsumption)
+
+        # Print the simulated data every 10 seconds
+        print(f"Time of Day: {time_of_day}, Total Light Intensity: {total_intensity}")
+        time.sleep(10)
+
+def sunlight_change():
+    while True:
+        # Change sunlight mode every two minutes
+        with lock:
+            print("Changing sunlight mode...")
+        time.sleep(120)
+
 def user_input():
     global artificial_light_on
     while True:
@@ -84,7 +105,6 @@ def user_input():
                 print("Artificial Light is OFF")
             else:
                 print("Invalid command. Enter 'on' or 'off'.")
-
 
 def scenario1():
     global artificial_light_on
@@ -119,17 +139,19 @@ def scenario1():
         # Calculate the total light intensity
         total_intensity = base_intensity + artificial_light_intensity
 
+        # Publish the simulated data to the sensor topic
+        publish_data(time_of_day, total_intensity, energyConsumption)
+
+
         # Print the simulated data every 10 seconds
         print(f"Time of Day: {time_of_day}, Total Light Intensity: {total_intensity}, Total Energy Consumption: {energyConsumption}")
         time.sleep(10)
 
-
 # Create and start threads for simulating light sensor and changing sunlight
 light_sensor_thread = threading.Thread(target=simulate_light_sensor)
+user_input_thread = threading.Thread(target=user_input)
 sunlight_change_thread = threading.Thread(target=sunlight_change)
 scenario_thread = threading.Thread(target=scenario1)
-
-user_input_thread = threading.Thread(target=user_input)
 
 user_input_thread.start()
 scenario_thread.start()
