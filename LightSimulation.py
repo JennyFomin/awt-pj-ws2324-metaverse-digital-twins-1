@@ -137,4 +137,3 @@ scenario_thread.start()
 # Wait for the threads to finish
 user_input_thread.join()
 scenario_thread.join()
-
