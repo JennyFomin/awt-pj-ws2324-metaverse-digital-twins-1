@@ -1,5 +1,8 @@
 # INSTALLATIONS
 
+## memory monitoring
+pip install psutil
+
 ## Mosquitto installation
 sudo add-apt-repository ppa:mosquitto-dev/mosquitto-ppa
 
