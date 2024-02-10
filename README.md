@@ -32,6 +32,9 @@ mosquitto_sub -h localhost -t "#" -v
 ## Test publisher (message should to all subscriber -> console and DB)
 mosquitto_pub -h localhost -t "test_topic" -m 'Hello, Mosquitto!'
 
+## start mongodb
+sudo systemctl start mongod
+
 ## run database bridge script
 python3 mongoDB-bridge.py
 
