@@ -6,7 +6,7 @@ import paho.mqtt.client as mqtt
 # MQTT broker settings
 mqtt_broker = "localhost"
 mqtt_port = 1883
-mqtt_topic = "smart_home/simulation"
+mqtt_topic = "smart_home/light_sensor"
 control_topic = "light_control"
 
 # Initial state of the artificial light
