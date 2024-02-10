@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - MQTT_Receiver
   layers:
   - Default
   - TransparentFX
