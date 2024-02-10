@@ -100,25 +100,26 @@ def user_input():
 def scenario1():
     global artificial_light_on
 
-    for _ in range(144):  # Simulate a full 24-hour day (144 intervals of 10 seconds each)
-        # Simulate different light sources and conditions
-        time_of_day = _ / 6  # 6 intervals per hour, so time_of_day ranges from 0 to 23
+    while(True):
+        for _ in range(144):  # Simulate a full 24-hour day (144 intervals of 10 seconds each)
+            # Simulate different light sources and conditions
+            time_of_day = _ / 6  # 6 intervals per hour, so time_of_day ranges from 0 to 23
 
-        # Adjust light intensity based on time of day
-        if 6 <= time_of_day < 18:  # Daytime
-            intensity = random.randint(650, 1023)  # Simulate sunlight
-        else:  # Nighttime
-            intensity = random.randint(0, 200)  # Simulate darkness
+            # Adjust light intensity based on time of day
+            if 6 <= time_of_day < 18:  # Daytime
+                intensity = random.randint(650, 1023)  # Simulate sunlight
+            else:  # Nighttime
+                intensity = random.randint(0, 200)  # Simulate darkness
 
-        scaledIntensity = float(intensity) / float(1023)
+            scaledIntensity = float(intensity) / float(1023)
 
-        # Publish the simulated data to the sensor topic
-        publish_data(time_of_day, scaledIntensity)
+            # Publish the simulated data to the sensor topic
+            publish_data(time_of_day, scaledIntensity)
 
-        # Print the simulated data every 10 seconds
-        print(f"Time of Day: {time_of_day}, Total Light Intensity: {scaledIntensity}")
+            # Print the simulated data every 10 seconds
+            print(f"Time of Day: {time_of_day}, Total Light Intensity: {scaledIntensity}")
 
-        time.sleep(10)
+            time.sleep(10)
 
 # Create and start threads for simulating light sensor and changing sunlight
 
