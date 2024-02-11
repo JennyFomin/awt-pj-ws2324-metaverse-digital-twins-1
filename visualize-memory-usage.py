@@ -32,4 +32,6 @@ axs[1].legend()
 
 # Verbessern Sie die Formatierung und zeigen Sie den Plot an
 plt.tight_layout()
+plt.savefig('memory-cpu-performance.png')
 plt.show()
+
