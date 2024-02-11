@@ -13,6 +13,8 @@ mqtt_broker = "localhost"
 mqtt_port = 1883
 mqtt_topic_energy_data = "smart_home/energy_data"  # Erstes Topic
 mqtt_topic_simulation_data = "smart_home/simulation_data"  # Neues Topic
+mqtt_topic_energy_data_DT = "smart_home/energy_data_DT"  # Erstes Topic
+mqtt_topic_simulation_data_DT = "smart_home/simulation_data_DT"  # Neues Topic
 
 def connect_to_mongodb():
     # Verbindung zu MongoDB herstellen
@@ -24,7 +26,7 @@ def connect_to_mongodb():
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
     # Abonnieren beider Topics
-    client.subscribe([(mqtt_topic_energy_data, 0), (mqtt_topic_simulation_data, 0)])
+    client.subscribe([(mqtt_topic_energy_data, 0), (mqtt_topic_simulation_data, 0), (mqtt_topic_simulation_data_DT, 0), (mqtt_topic_energy_data_DT, 0)])
 
 def on_message(client, userdata, msg):
     # Verbindung zur MongoDB-Datenbank herstellen
@@ -43,6 +45,12 @@ def on_message(client, userdata, msg):
     elif msg.topic == mqtt_topic_simulation_data:
         # Speichern in der 'simulation_data' Kollektion
         collection = db['simulation_data']
+    elif msg.topic == mqtt_topic_simulation_data_DT:
+        # Speichern in der 'simulation_data' Kollektion
+        collection = db['simulation_data_DT']
+    elif msg.topic == mqtt_topic_energy_data_DT:
+        # Speichern in der 'simulation_data' Kollektion
+        collection = db['energy_data_DT']
 
     # Nachricht in der entsprechenden MongoDB-Kollektion speichern
     result = collection.insert_one(message)
