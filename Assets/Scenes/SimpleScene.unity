@@ -186,6 +186,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5086875}
+  - component: {fileID: 5086876}
+  - component: {fileID: 5086877}
   m_Layer: 0
   m_Name: House1
   m_TagString: Untagged
@@ -207,10 +209,48 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1130730143}
-  - {fileID: 1981510643}
   - {fileID: 1041554526}
+  - {fileID: 998819950}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &5086876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5086874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2a864fd821aa1e4aa7e7e6c25a5e4f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Rooms:
+  - {fileID: 1470272449}
+  - {fileID: 1886760286}
+  - {fileID: 1984684130}
+  connectedSensor: 1
+  intensityThreshold: 0.41
+  MqttControllerObject: {fileID: 1612543989}
+--- !u!114 &5086877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5086874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bed26d77b24212848a73ebe8005bcf25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Lamps:
+  - {fileID: 1994088301}
+  - {fileID: 1164412525}
+  - {fileID: 889907439}
+  - {fileID: 137563737}
+  - {fileID: 1564950827}
+  - {fileID: 403365482}
 --- !u!1001 &5874686
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2575,7 +2615,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1420073320}
     m_Modifications:
     - target: {fileID: 100000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_Name
@@ -2583,7 +2623,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 155.28
+      value: 1.9700012
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2591,23 +2631,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 86.01
+      value: -5.830002
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400044, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5758,7 +5798,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Lamps:
   - {fileID: 905612075}
-  connectedSensor: 0
+  intensityThreshold: 0
 --- !u!65 &224042532
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9766,7 +9806,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Lamps: []
-  connectedSensor: 0
+  intensityThreshold: 0
 --- !u!65 &390191678
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13018,7 +13058,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 5086875}
     m_Modifications:
     - target: {fileID: 100000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_Name
@@ -13026,7 +13066,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 143.22
+      value: 2.5099945
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_LocalPosition.y
@@ -13034,23 +13074,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 86.01
+      value: -5.830002
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400044, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20334,8 +20374,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   simulatedHour: 0
-  sunrise: 8
-  sunset: 16.7
   accTime: 60
 --- !u!1001 &778809234
 PrefabInstance:
@@ -23596,7 +23634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Lamps: []
-  connectedSensor: 0
+  intensityThreshold: 0
 --- !u!1001 &923280907
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24712,13 +24750,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 145.8, y: 9.1, z: 82.8}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: 152.72, y: 14.17, z: 82.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -180}
 --- !u!1001 &964322924
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25554,6 +25592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc202881a8c377c458ab23bc582cae4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  House: {fileID: 5086874}
   Steps:
   - Name: Sleep
     Date: 0
@@ -25587,7 +25626,7 @@ MonoBehaviour:
     Date: 21
     Area: {fileID: 1389645232}
     Sleeping: 1
-  speed: 0.05
+  speed: 0.2
   Punctuality: 0
   vigilance: 0
 --- !u!65 &998819947
@@ -25611,6 +25650,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &998819950 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
+  m_PrefabInstance: {fileID: 523197698}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &999997994
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31001,50 +31045,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: e1d9101af5d96d94ca99efe2de0bac21, type: 3}
   m_PrefabInstance: {fileID: 1208222622}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1209926037
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1209926038}
-  - component: {fileID: 1209926039}
-  m_Layer: 0
-  m_Name: EnergyCalculator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1209926038
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1209926037}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1351575062}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1209926039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1209926037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bed26d77b24212848a73ebe8005bcf25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1211545844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32580,6 +32580,58 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: b82e76f4092b7d24aaeecddf36fe8d3b, type: 3}
   m_PrefabInstance: {fileID: 1265970532}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1267637815
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1267637817}
+  - component: {fileID: 1267637816}
+  m_Layer: 0
+  m_Name: Publisher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1267637816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267637815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4cde39c5439ddf41b17a52c418cbd8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brokerHostname: localhost
+  brokerPort: 1883
+  energyDataTopic1: smart_home/energy_data
+  energyDataTopic2: smart_home/energy_data_DT
+  simulationDataTopic1: smart_home/simulation_data
+  simulationDataTopic2: smart_home/simulation_data_DT
+  House1: {fileID: 1420073319}
+  House2: {fileID: 5086874}
+--- !u!4 &1267637817
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267637815}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 162.95607, y: -7.243327, z: 83.8342}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1268015057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33607,7 +33659,7 @@ GameObject:
   - component: {fileID: 1305358936}
   m_Layer: 0
   m_Name: MQTT_Receiver
-  m_TagString: Untagged
+  m_TagString: MQTT_Receiver
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34579,7 +34631,7 @@ MonoBehaviour:
   Lamps:
   - {fileID: 152325958}
   - {fileID: 1281791909}
-  connectedSensor: 0
+  intensityThreshold: 0
 --- !u!65 &1345246892
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34867,38 +34919,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: d4cfcf659200d7548b90a5580c3ab18f, type: 3}
   m_PrefabInstance: {fileID: 1350189350}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1351575061
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1351575062}
-  m_Layer: 0
-  m_Name: Simulations
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1351575062
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1351575061}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1209926038}
-  m_Father: {fileID: 1420073320}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1353654726
 GameObject:
   m_ObjectHideFlags: 0
@@ -36527,6 +36547,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1420073320}
+  - component: {fileID: 1420073321}
+  - component: {fileID: 1420073322}
   m_Layer: 0
   m_Name: House2
   m_TagString: Untagged
@@ -36548,10 +36570,48 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 137116825}
-  - {fileID: 1351575062}
   - {fileID: 206434549}
+  - {fileID: 1953648101}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1420073321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420073319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2a864fd821aa1e4aa7e7e6c25a5e4f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Rooms:
+  - {fileID: 224042529}
+  - {fileID: 1345246889}
+  - {fileID: 1449366839}
+  connectedSensor: 0
+  intensityThreshold: 0.49
+  MqttControllerObject: {fileID: 1612543989}
+--- !u!114 &1420073322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420073319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bed26d77b24212848a73ebe8005bcf25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Lamps:
+  - {fileID: 905612075}
+  - {fileID: 152325958}
+  - {fileID: 1281791909}
+  - {fileID: 1135127641}
+  - {fileID: 1644334324}
+  - {fileID: 532392505}
 --- !u!1001 &1421611064
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37308,7 +37368,7 @@ MonoBehaviour:
   - {fileID: 1135127641}
   - {fileID: 1644334324}
   - {fileID: 532392505}
-  connectedSensor: 0
+  intensityThreshold: 0
 --- !u!65 &1449366842
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38267,7 +38327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Lamps:
   - {fileID: 1994088301}
-  connectedSensor: 0
+  intensityThreshold: 0
 --- !u!1001 &1472457537
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41461,10 +41521,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameController: Controller 1
+  tagOfTheMQTTReceiver: MQTT_Receiver
   _eventSender: {fileID: 1305358936}
   time_of_day: 0
   total_light_intensity: 0
-  timeManager: {fileID: 778486398}
+  clockObject: {fileID: 778486396}
 --- !u!4 &1612543991
 Transform:
   m_ObjectHideFlags: 0
@@ -45414,50 +45475,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: e0e851c58997b9c438fae494e3412749, type: 3}
   m_PrefabInstance: {fileID: 1769999419}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1774051116
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1774051117}
-  - component: {fileID: 1774051118}
-  m_Layer: 0
-  m_Name: EnergyCalculator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1774051117
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1774051116}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1981510643}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1774051118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1774051116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bed26d77b24212848a73ebe8005bcf25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1774383021
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48120,7 +48137,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1869220071}
-  - component: {fileID: 1869220070}
   m_Layer: 0
   m_Name: LightSensor
   m_TagString: Untagged
@@ -48128,23 +48144,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1869220070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1869220069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bb8351b0555b044c8338ce6c8cdd081, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nameController: Controller 1
-  _eventSender: {fileID: 0}
-  time_of_day: 0
-  total_light_intensity: 0
-  timeManager: {fileID: 0}
 --- !u!4 &1869220071
 Transform:
   m_ObjectHideFlags: 0
@@ -48770,7 +48769,7 @@ MonoBehaviour:
   Lamps:
   - {fileID: 1164412525}
   - {fileID: 889907439}
-  connectedSensor: 0
+  intensityThreshold: 0
 --- !u!1001 &1886863576
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50414,42 +50413,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc202881a8c377c458ab23bc582cae4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  House: {fileID: 1420073319}
   Steps:
   - Name: Sleep
     Date: 0
-    Area: {fileID: 1389645232}
+    Area: {fileID: 1690811284}
     Sleeping: 1
   - Name: Awakening
-    Date: 3.4
-    Area: {fileID: 1389645232}
+    Date: 8
+    Area: {fileID: 1690811284}
     Sleeping: 0
   - Name: Breakfast
-    Date: 5.8
-    Area: {fileID: 526647453}
+    Date: 8.5
+    Area: {fileID: 1138007609}
     Sleeping: 0
   - Name: Shower
-    Date: 8.5
-    Area: {fileID: 1232945077}
+    Date: 9.5
+    Area: {fileID: 2079055253}
     Sleeping: 0
   - Name: Work
-    Date: 11.7
+    Date: 10
     Area: {fileID: 135282744}
     Sleeping: 0
   - Name: Rest
-    Date: 14.6
-    Area: {fileID: 1404139697}
+    Date: 16
+    Area: {fileID: 553451650}
     Sleeping: 0
   - Name: Wash
-    Date: 19.4
-    Area: {fileID: 1232945077}
+    Date: 20
+    Area: {fileID: 2079055253}
     Sleeping: 0
   - Name: Sleep
-    Date: 21.3
-    Area: {fileID: 1389645232}
+    Date: 21
+    Area: {fileID: 1690811284}
     Sleeping: 1
-  speed: 0.005
-  Punctuality: 0.3
+  speed: 0.2
+  Punctuality: 0
   vigilance: 0
+--- !u!4 &1953648101 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400000, guid: 7aea2d469d67de44f9dd680a5088c739, type: 3}
+  m_PrefabInstance: {fileID: 117209671}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1959924649
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51222,38 +51227,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: b8365ae9a93a2e8498ae3c2646f3c455, type: 3}
   m_PrefabInstance: {fileID: 1979924245}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1981510642
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1981510643}
-  m_Layer: 0
-  m_Name: Simulations
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1981510643
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1981510642}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1774051117}
-  m_Father: {fileID: 5086875}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1982266387
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51483,7 +51456,7 @@ MonoBehaviour:
   - {fileID: 137563737}
   - {fileID: 1564950827}
   - {fileID: 403365482}
-  connectedSensor: 0
+  intensityThreshold: 0
 --- !u!1001 &1986099820
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55645,11 +55618,10 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 5086875}
   - {fileID: 1420073320}
-  - {fileID: 523197698}
-  - {fileID: 117209671}
   - {fileID: 608118846}
   - {fileID: 778486397}
   - {fileID: 135282748}
   - {fileID: 1869220071}
   - {fileID: 1305358937}
   - {fileID: 1612543991}
+  - {fileID: 1267637817}

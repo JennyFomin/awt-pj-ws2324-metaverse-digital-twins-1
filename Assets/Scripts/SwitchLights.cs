@@ -5,13 +5,15 @@ using UnityEngine;
 public class SwitchLights : MonoBehaviour
 {
     public List<GameObject> Lamps;
-    public bool connectedSensor = false;
     private int population;
     private int previousPopulation;
     private bool lightsOn = false;
     private bool turnOffTest = true;
     private TimeManager timeManager;
+    private mqttController mqttController;
     private bool previousDayTime = false;
+    [Range(0,1)]
+    public float intensityThreshold;
 
     private Collider[] PresentPeople()
     {
@@ -78,13 +80,24 @@ public class SwitchLights : MonoBehaviour
         {
             timeManager = clockObject.GetComponent<TimeManager>();
         }
+
+        // Trouver le script mqttController attaché à l'objet Controller
+        GameObject controllerObject = GameObject.Find("Controller");
+        if (controllerObject != null)
+        {
+            mqttController = controllerObject.GetComponent<mqttController>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         bool personPresent = IsPersonAwake();
-        bool dayTime = timeManager.isDayTime();
+        bool dayTime = false;
+        if(mqttController.total_light_intensity>intensityThreshold)
+        {
+            dayTime = true;
+        }
         if (!dayTime && personPresent && !lightsOn)
         {
             ToggleLights(true);
@@ -99,10 +112,10 @@ public class SwitchLights : MonoBehaviour
         }
 
         //Eteinte automatique des lumières
-        if(previousDayTime != dayTime && dayTime && connectedSensor)
-        {
-            ToggleLights(false);
-        }
+        //if(previousDayTime != dayTime && dayTime && connectedSensor)
+        //{
+        //    ToggleLights(false);
+        //}
 
         //Eteindre/allumer la lumière lorsque le jour se lève ou que la nuit tombe
         if(previousDayTime != dayTime && personPresent){

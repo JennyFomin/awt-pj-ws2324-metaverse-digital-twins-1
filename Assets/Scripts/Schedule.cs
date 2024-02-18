@@ -15,7 +15,8 @@ public class Step
 
 public class Schedule : MonoBehaviour
 {
-    
+    public GameObject House;
+    private HouseManager houseManager;
      // Liste originale des étapes
     public List<Step> Steps = new List<Step>();
     public float speed = 0.05f; // Vitesse de déplacement
@@ -87,8 +88,24 @@ public class Schedule : MonoBehaviour
     [Range(0, 1)]
     public float vigilance = 0;
 
+    void StepChange()
+    {
+        currentStep = TodaySteps[currentStepIndex];
+        Area = currentStep.Area;
+
+        //checks if he goes to work
+        if(currentStep.Name=="Work")
+        {
+            houseManager.ToggleAllLights(false);
+        }
+    }
+
     void Start()
     {
+        if(House!=null)
+        {
+            houseManager = House.GetComponent<HouseManager>();
+        }
         GenerateTodaySteps();
 
         // Trouver le script TimeManager attaché à l'objet Clock
@@ -120,9 +137,7 @@ public class Schedule : MonoBehaviour
             if(timeManager.simulatedHour > TodaySteps[currentStepIndex + 1].Date)
             {
                 currentStepIndex++;
-                currentStep = TodaySteps[currentStepIndex];
-                Area = currentStep.Area;
-
+                StepChange();
             }
         };
 
@@ -131,8 +146,7 @@ public class Schedule : MonoBehaviour
             if(timeManager.simulatedHour < TodaySteps[currentStepIndex].Date)
             {
                 currentStepIndex = 0;
-                currentStep = TodaySteps[currentStepIndex];
-                Area = currentStep.Area;
+                StepChange();
             }
         };
 
@@ -169,13 +183,13 @@ public class Schedule : MonoBehaviour
                     // Le personnage s'allonge et ne peut plus se déplacer
                     isSleeping = true;
                     // Rotation progressive vers la position allongée
-                    transform.rotation = Quaternion.Slerp(transform.rotation, lieDownRotation, Time.deltaTime * 0.005f * timeManager.accTime);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, lieDownRotation, Time.deltaTime * 0.5f * timeManager.accTime);
                     isStandingUp = false;
 
                 }
                 else if(!isStandingUp)
                 {
-                    transform.rotation = Quaternion.Slerp(transform.rotation, standRotation, Time.deltaTime * 0.005f * timeManager.accTime);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, standRotation, Time.deltaTime * 0.5f * timeManager.accTime);
                     // Si la rotation est presque terminée
                     if (Quaternion.Angle(transform.rotation, standRotation) < 1f)
                     {

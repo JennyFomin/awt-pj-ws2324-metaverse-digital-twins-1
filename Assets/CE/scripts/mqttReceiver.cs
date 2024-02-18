@@ -193,8 +193,4 @@ public class mqttReceiver : M2MqttUnityClient
                 autoConnect = true;
             }
         }
-
-
-
-
 }

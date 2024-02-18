@@ -5,11 +5,18 @@ public class SunManager : MonoBehaviour
     private Light directionalLight;
     private TimeManager timeManager;
     Quaternion rotation;
+    
+    private mqttController mqttControllerScript;
 
     void setSunPosition()
     {
         rotation = Quaternion.Euler(timeManager.simulatedHour*360/24 - 90, 0, 0);
         transform.rotation = rotation;
+    }
+
+    void setSunIntensity()
+    {
+        directionalLight.intensity = mqttControllerScript.total_light_intensity;
     }
     
     void Start()
@@ -23,12 +30,20 @@ public class SunManager : MonoBehaviour
         {
             timeManager = clockObject.GetComponent<TimeManager>();
         }
+        GameObject mqttControllerObject = GameObject.Find("Controller");
+        if (mqttControllerObject != null)
+        {
+            mqttControllerScript = mqttControllerObject.GetComponent<mqttController>();
+        }
 
-        setSunPosition();
+
+        //setSunPosition();
+        setSunIntensity();
     }
 
     void Update()
     {
-        setSunPosition();
+        //setSunPosition();
+        setSunIntensity();
     }
 }

@@ -6,15 +6,13 @@ public class TimeManager : MonoBehaviour
 {
     [Range(0, 24)]
     public float simulatedHour = 0;
-    [Range(0, 24)]
-    public float sunrise;
-    [Range(0, 24)]
-    public float sunset;
-    public float accTime = 1;
-    private bool dayTime = false;
-    public bool isDayTime(){
-        return dayTime;
+    private float simulationTime;
+    public float getSimulationTime()
+    {
+        return simulationTime;
     }
+
+    public float accTime = 1;
 
     private List<Schedule> scheduleScripts = new List<Schedule>();
 
@@ -29,16 +27,8 @@ public class TimeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        simulationTime += Time.deltaTime * accTime/3600;
         simulatedHour += Time.deltaTime * accTime/3600;
-        if(dayTime == false && (simulatedHour > sunrise && simulatedHour < sunset))
-        {
-            dayTime = true;
-        }
-        else if(dayTime == true && (simulatedHour < sunrise || simulatedHour > sunset))
-        {
-            dayTime = false;
-        }
-
         if (simulatedHour >= 24)
         {
             //go to midnight
