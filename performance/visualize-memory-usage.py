@@ -1,36 +1,42 @@
+# -----------------
+#
+# This script creates visualizations for CPU and memory usage over time, 
+# using pandas and matplotlib. It generates two linked subplots in one figure: 
+# one for CPU usage and another for memory usage, each plotting data for different processes. 
+# Each process is represented as a separate line on the charts, with legends for identification. 
+# 
+# -----------------
+
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Pfad zur CSV-Datei
 csv_file = 'resource_usage.csv'
 
-# Daten aus der CSV-Datei lesen
 df = pd.read_csv(csv_file)
 
-# Konvertieren Sie die 'timestamp'-Spalte in ein datetime-Objekt
 df['timestamp'] = pd.to_datetime(df['timestamp'])
 
-# Erstellen Sie separate Diagramme für CPU und Speicher
+# create subplots for cpu and memory usage
 fig, axs = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
 
-# CPU-Auslastung über die Zeit für jeden Prozess
+# cpu usage for each process
 for name, group in df.groupby('name'):
     axs[0].plot(group['timestamp'], group['cpu_percent'], label=name)
 
-axs[0].set_title('CPU-Auslastung über die Zeit')
-axs[0].set_ylabel('CPU-Auslastung (%)')
+axs[0].set_title('cpu usage')
+axs[0].set_ylabel('total cpu usage (%)')
 axs[0].legend()
 
-# Speicherauslastung über die Zeit für jeden Prozess
+# memory usage for each process
 for name, group in df.groupby('name'):
     axs[1].plot(group['timestamp'], group['memory_percent'], label=name)
 
-axs[1].set_title('Speicherauslastung über die Zeit')
-axs[1].set_ylabel('Speicherauslastung (%)')
-axs[1].set_xlabel('Zeit')
+axs[1].set_title('memory usage')
+axs[1].set_ylabel('total memory usage (%)')
+axs[1].set_xlabel('time')
 axs[1].legend()
 
-# Verbessern Sie die Formatierung und zeigen Sie den Plot an
+# adjust date and time formatting
 plt.tight_layout()
 plt.savefig('memory-cpu-performance.png')
 plt.show()

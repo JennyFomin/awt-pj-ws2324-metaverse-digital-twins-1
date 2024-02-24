@@ -1,15 +1,24 @@
+# -----------------
+# 
+# This Python script is designed to monitor and log the resource usage of specified processes 
+# on a system over time. 
+# It utilizes the psutil library to access process information and system resource utilization, 
+# such as CPU and memory percentages. 
+# The script is configured to track specific processes, identified by their names at a defined interval.  
+# 
+# -----------------
+
 import psutil
 import csv
 import time
 from datetime import datetime
 
-# Konfiguration
-output_csv = 'resource_usage.csv'  # Name der Ausgabedatei
-monitor_interval = 20  # Überwachungsintervall in Sekunden
-process_names = ['Unity3d', 'python3', 'mosquitto']  # Namen der zu überwachenden Prozesse
+# Configuration
+output_csv = 'resource_usage.csv'  
+monitor_interval = 20  
+process_names = ['Unity3d', 'python3', 'mosquitto'] 
 
 def find_processes_by_name(names):
-    """Findet Prozesse anhand ihres Namens."""
     matched_processes = []
     for proc in psutil.process_iter(['name']):
         if proc.info['name'] in names:
@@ -17,7 +26,6 @@ def find_processes_by_name(names):
     return matched_processes
 
 def write_to_csv(filename, data):
-    """Schreibt die überwachten Daten in eine CSV-Datei."""
     with open(filename, 'a', newline='') as csvfile:
         fieldnames = ['timestamp', 'pid', 'name', 'memory_percent', 'cpu_percent']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -35,7 +43,7 @@ def main():
         stats = []
         for proc in matched_processes:
             try:
-                # Holen Sie sich die CPU- und Speicherauslastung des Prozesses
+                # get cpu and memory utalization of the process
                 cpu_percent = proc.cpu_percent()
                 memory_percent = proc.memory_percent()
                 stats.append({
@@ -45,8 +53,8 @@ def main():
                     'cpu_percent': cpu_percent
                 })
             except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-                pass  # Prozess könnte beendet worden sein oder Zugriff verweigert
-
+                pass  
+            
         write_to_csv(output_csv, stats)
         time.sleep(monitor_interval)
 
