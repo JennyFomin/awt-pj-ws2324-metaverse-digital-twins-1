@@ -10,7 +10,7 @@
 # -----------------
 
 
-$csvFile = "gpu_usage_overall.csv"
+$csvFile = "results/gpu_usage_overall.csv"
 
 # csv header
 "Timestamp,Total_GPU_Usage" | Out-File $csvFile

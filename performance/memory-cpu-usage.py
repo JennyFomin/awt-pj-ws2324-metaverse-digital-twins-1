@@ -14,7 +14,7 @@ import time
 from datetime import datetime
 
 # Configuration
-output_csv = 'resource_usage.csv'  
+output_csv = 'results/memory_cpu_usage.csv'  
 monitor_interval = 20  
 process_names = ['Unity3d', 'python3', 'mosquitto'] 
 
@@ -54,7 +54,7 @@ def main():
                 })
             except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
                 pass  
-            
+
         write_to_csv(output_csv, stats)
         time.sleep(monitor_interval)
 
