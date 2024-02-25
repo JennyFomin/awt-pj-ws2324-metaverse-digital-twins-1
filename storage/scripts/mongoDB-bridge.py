@@ -1,14 +1,22 @@
+# -----------------
+#
+# This Python script integrates MQTT with MongoDB to store energy data 
+# from smart home devices or the ditigal twin. 
+# It uses paho-mqtt for MQTT communication and pymongo for MongoDB operations. 
+# The script is configured to subscribe to four MQTT topics. 
+# The collection in which the data is stored depends on the topic of the received message.
+# 
+# -----------------
+
 import paho.mqtt.client as mqtt
 import pymongo
 import json
 from datetime import datetime
 
-# MongoDB-Verbindungseinstellungen
 mongo_host = 'localhost'
 mongo_port = 27017
 mongo_db_name = 'smart_home_db'
 
-# MQTT-Einstellungen
 mqtt_broker = "localhost"
 mqtt_port = 1883
 mqtt_topic_energy_data = "smart_home/energy_data"  # Erstes Topic
@@ -17,7 +25,6 @@ mqtt_topic_energy_data_DT = "smart_home/energy_data_DT"  # Erstes Topic
 mqtt_topic_simulation_data_DT = "smart_home/simulation_data_DT"  # Neues Topic
 
 def connect_to_mongodb():
-    # Verbindung zu MongoDB herstellen
     client = pymongo.MongoClient(mongo_host, mongo_port)
     db = client[mongo_db_name]
     return db
@@ -25,36 +32,30 @@ def connect_to_mongodb():
 # MQTT Callbacks
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
-    # Abonnieren beider Topics
+    # subscribe to all topics
     client.subscribe([(mqtt_topic_energy_data, 0), (mqtt_topic_simulation_data, 0), (mqtt_topic_simulation_data_DT, 0), (mqtt_topic_energy_data_DT, 0)])
 
 def on_message(client, userdata, msg):
-    # Verbindung zur MongoDB-Datenbank herstellen
     db = connect_to_mongodb()
-
+    # receve and decode message
     message = json.loads(msg.payload)
     print(f"Received message: {message} on topic {msg.topic}")
 
-    # Zeitstempel zum Nachrichtenobjekt hinzufügen
     message['timestamp'] = datetime.now()
 
-    # Unterscheidung, von welchem Topic die Nachricht stammt
+    # choose collection according to the topic the message received from
     if msg.topic == mqtt_topic_energy_data:
-        # Speichern in der 'energy_data' Kollektion
         collection = db['energy_data']
     elif msg.topic == mqtt_topic_simulation_data:
-        # Speichern in der 'simulation_data' Kollektion
         collection = db['simulation_data']
     elif msg.topic == mqtt_topic_simulation_data_DT:
-        # Speichern in der 'simulation_data' Kollektion
         collection = db['simulation_data_DT']
     elif msg.topic == mqtt_topic_energy_data_DT:
-        # Speichern in der 'simulation_data' Kollektion
         collection = db['energy_data_DT']
 
-    # Nachricht in der entsprechenden MongoDB-Kollektion speichern
+    # store data in chosen db collection
     result = collection.insert_one(message)
-    print(f"Daten erfolgreich in {collection.name} gespeichert, Dokument-ID: {result.inserted_id}")
+    print(f"Successfully saved data in {collection.name}, document-id: {result.inserted_id}")
 
 def start_mqtt_client():
     client = mqtt.Client()
@@ -63,7 +64,7 @@ def start_mqtt_client():
 
     client.connect(mqtt_broker, mqtt_port, 60)
 
-    # Blocking call - auf Nachrichten warten
+    # Blocking call - wait for messages
     client.loop_forever()
 
 if __name__ == '__main__':

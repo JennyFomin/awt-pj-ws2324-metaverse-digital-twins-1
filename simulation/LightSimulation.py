@@ -1,3 +1,14 @@
+# -----------------
+#
+# This Python script simulates a smart home light sensor environment using MQTT for communication. 
+# It features a light sensor simulation that adjusts its readings based on the time of day, 
+# simulating sunlight during the day and darkness at night. 
+# The script uses paho-mqtt to connect to an MQTT broker, publish simulated light intensity data 
+# to the mqtt topic, and listen for control commands on the control topic 
+# to turn an artificial light on or off.
+# 
+# -----------------
+
 import time
 import random
 import threading
@@ -9,9 +20,7 @@ mqtt_port = 1883
 mqtt_topic = "smart_home/light_sensor"
 control_topic = "light_control"
 
-# Initial state of the artificial light
 artificial_light_on = False
-
 
 # Lock for synchronizing access to shared variables
 lock = threading.Lock()
@@ -19,15 +28,14 @@ lock = threading.Lock()
 # initialize MQTT Client 
 mqtt_client = mqtt.Client()
 
-# Callback Funktion für erfolgreiche Verbindung
 def on_connect(client, userdata, flags, rc):
-    print(f"Verbunden mit MQTT Broker mit Resultat-Code: {rc}")
+    print(f"Connected with mqtt broker with the id: {rc}")
 
-# Callback Funktion für eingehende Nachrichten
 def on_message(client, userdata, msg):
     global artificial_light_on
     payload = msg.payload.decode("utf-8")
 
+    #control light based on feedback from digital twin
     if msg.topic == control_topic:
         with lock:
             if payload.lower() == "on":
@@ -48,10 +56,11 @@ mqtt_client.connect(mqtt_broker, mqtt_port, 60)
 # Starte den Netzwerk-Schleifen-Thread im Hintergrund
 mqtt_client.loop_start()
 
+# Publish the simulated data to the sensor topic
 def publish_data(time_of_day, total_light_intensity):
     # create message as JSON-String
     message = f'{{"time_of_day": {time_of_day}, "total_light_intensity": {total_light_intensity}}}'
-    # publish message to defined topic
+
     mqtt_client.publish(mqtt_topic, message)
     print(f"Veröffentlichte Daten: {message}")
 
@@ -62,30 +71,28 @@ def simulate_light_sensor():
 
         # Adjust light intensity based on time of day
         if 6 <= time_of_day < 18:  # Daytime
-            intensity = random.randint(650, 1023)  # Simuliere Sonnenlicht
+            intensity = random.randint(650, 1023)  
         else:  # Nighttime
-            intensity = random.randint(0, 150)  # Simuliere Dunkelheit
+            intensity = random.randint(0, 150)  
 
         scaledIntensity = float(intensity) / float(1023)
-
-        # Publish the simulated data to the sensor topic
+       
         publish_data(time_of_day, scaledIntensity)
 
-        # Print the simulated data every 10 seconds
         print(f"Time of Day: {time_of_day}, Total Light Intensity: {scaledIntensity}")
         time.sleep(10)
 
+# Change sunlight mode every two minutes
 def sunlight_change():
     while True:
-        # Change sunlight mode every two minutes
         with lock:
             print("Changing sunlight mode...")
         time.sleep(120)
 
+# Read user input to control the artificial light
 def user_input():
     global artificial_light_on
     while True:
-        # Read user input to control the artificial light
         command = input("Enter 'on' to turn on the artificial light, 'off' to turn it off: ").lower()
         with lock:
             if command == "on":
@@ -99,7 +106,6 @@ def user_input():
 
 def scenario1():
     global artificial_light_on
-
     while(True):
         for _ in range(144):  # Simulate a full 24-hour day (144 intervals of 10 seconds each)
             # Simulate different light sources and conditions
@@ -107,23 +113,19 @@ def scenario1():
 
             # Adjust light intensity based on time of day
             if 6 <= time_of_day < 18:  # Daytime
-                intensity = random.randint(650, 1023)  # Simulate sunlight
+                intensity = random.randint(650, 1023) 
             else:  # Nighttime
-                intensity = random.randint(0, 200)  # Simulate darkness
+                intensity = random.randint(0, 200) 
 
             scaledIntensity = float(intensity) / float(1023)
 
-            # Publish the simulated data to the sensor topic
             publish_data(time_of_day, scaledIntensity)
 
-            # Print the simulated data every 10 seconds
             print(f"Time of Day: {time_of_day}, Total Light Intensity: {scaledIntensity}")
 
             time.sleep(10)
 
 # Create and start threads for simulating light sensor and changing sunlight
-
-
 user_input_thread = threading.Thread(target=user_input)
 sunlight_change_thread = threading.Thread(target=sunlight_change)
 scenario_thread = threading.Thread(target=scenario1)
