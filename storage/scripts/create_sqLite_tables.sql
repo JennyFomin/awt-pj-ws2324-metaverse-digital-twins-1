@@ -1,4 +1,9 @@
--- create_table.sql
+-- -----------------
+-- NOT USED 
+--
+-- SQL statement to create sqlite database table
+-- 
+-- -----------------
 
 CREATE TABLE IF NOT EXISTS smart_home_data (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
