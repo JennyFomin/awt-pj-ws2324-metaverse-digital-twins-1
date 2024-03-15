@@ -13,7 +13,9 @@ public class SwitchLights : MonoBehaviour
     private mqttController mqttController;
     private bool previousDayTime = false;
     [Range(0,1)]
+    private float previousBestVigilance = 0;
     public float intensityThreshold;
+    
 
     private Collider[] PresentPeople()
     {
@@ -42,17 +44,23 @@ public class SwitchLights : MonoBehaviour
     {
         float currentBestVigilance = 0;
         Collider[] colliders = PresentPeople();
+
+        //For each person in the room
         foreach (Collider collider in colliders)
         {
             Schedule schedule = collider.GetComponent<Schedule>();
             if (schedule != null)
             {
+                //Debug.Log("Is awake : " + !schedule.getIsSleeping());
+                //Debug.Log("vigilance : " + schedule.vigilance);
+                //If the person is more vigilant and is awake
                 if (!schedule.getIsSleeping() && schedule.vigilance>currentBestVigilance)
                 {
                     currentBestVigilance = schedule.vigilance;
                 }
             }
         }
+
         return currentBestVigilance;
     }
 
@@ -67,8 +75,10 @@ public class SwitchLights : MonoBehaviour
                 lampScript.TurnOn = on;
             }
         }
+        //declare the person in an arriving or leaving state
         turnOffTest = on;
         lightsOn = on;
+        previousBestVigilance = bestVigilance();
     }
 
     // Start is called before the first frame update
@@ -92,45 +102,56 @@ public class SwitchLights : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool personPresent = IsPersonAwake();
+        //ToggleLights(false);
+        bool personAwake = IsPersonAwake();
         bool dayTime = false;
+
+        //Detect if it is day or not
         if(mqttController.total_light_intensity>intensityThreshold)
         {
             dayTime = true;
         }
-        if (!dayTime && personPresent && !lightsOn)
+
+        //If it's nighttime and someone is awake in the room with lights turned off, they turn them on   
+        if (!dayTime && personAwake && !lightsOn)
         {
+            //Debug.Log("it's nighttime and someone is awake in the room with lights turned off, they turn them on");
             ToggleLights(true);
         }
-        else if (!dayTime && !personPresent && turnOffTest)
+
+        //If it's nighttime and the person is leaving and vigilant enough, they turn the light off
+        else if (!dayTime && !personAwake && turnOffTest)
         {
-            if(bestVigilance()>Random.Range(0,1))
+            //Debug.Log("it's nighttime and if the person is leaving and vigilant enough, they turn the light off");
+            //Case 1 : It is a new day, the person can potentially turn the lights off
+            //Debug.Log("previousBestVigilance : " + previousBestVigilance);
+            //Debug.Log(Random.NextDouble());
+            if(previousBestVigilance>Random.Range(0f,1f))
             {
                 ToggleLights(false);
             }
+
+            //Declare the person in a leaving state, even if they left the lamps turned on
             turnOffTest = false;
         }
 
-        //Eteinte automatique des lumières
-        //if(previousDayTime != dayTime && dayTime && connectedSensor)
-        //{
-        //    ToggleLights(false);
-        //}
+        //If there is a person in the room while night is beginning/ending
+        if(previousDayTime != dayTime && personAwake){
 
-        //Eteindre/allumer la lumière lorsque le jour se lève ou que la nuit tombe
-        if(previousDayTime != dayTime && personPresent){
-
-            //Cas 1 : le jour se lève, la personne peut potentiellement éteindre la lumière
-            if(dayTime && bestVigilance()>Random.Range(0,1))
+            if(dayTime && previousBestVigilance>Random.Range(0f,1f))
             {
                 ToggleLights(false);
+                //Debug.Log("It is a new day, the person turns the lights off");
             }
-            //Cas 2 : la nuit tombe, la personne allume directement la lumière
-            else
+            //Cas 2 : It is a new night, the person turns the lights on
+            if(!dayTime)
             {
                 ToggleLights(true);
+                //Debug.Log("It is a new night, the person turns the lights on");
             }
             previousDayTime = dayTime;
+        
         }
+        
     }
 }
