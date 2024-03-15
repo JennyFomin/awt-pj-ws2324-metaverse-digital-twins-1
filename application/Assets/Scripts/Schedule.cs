@@ -6,23 +6,23 @@ using UnityEngine;
 [System.Serializable]
 public class Step
 {
-    public string Name;             // Nom de l'étape
+    public string Name;             // Name of the step
     [Range(0, 24)]
-    public float Date;              // Heure de l'étape (entre 0 et 24)
-    public GameObject Area;         // Référence au GameObject de la pièce
-    public bool Sleeping = false;   // Par défaut, Sleeping est à False
+    public float Date;              // Time of the step (between 0 and 24)
+    public GameObject Area;         // Reference to the room's GameObject
+    public bool Sleeping = false;   // By default, Sleeping is set to False
 }
 
 public class Schedule : MonoBehaviour
 {
     public GameObject House;
     private HouseManager houseManager;
-     // Liste originale des étapes
+    // Original list of steps
     public List<Step> Steps = new List<Step>();
-    public float speed = 0.05f; // Vitesse de déplacement
+    public float speed = 0.05f; // Movement speed
     public float Punctuality = 0.0f;
 
-    // Liste des étapes pour aujourd'hui
+    // List of steps for today
     private List<Step> TodaySteps = new List<Step>();
     private int currentStepIndex = 0;
     private Step currentStep;
@@ -38,7 +38,7 @@ public class Schedule : MonoBehaviour
         return currentStep;
     }
     private GameObject Area;
-    
+
     private TimeManager timeManager;
     public List<Step> GetTodaySteps()
     {
@@ -46,19 +46,19 @@ public class Schedule : MonoBehaviour
     }
     public void GenerateTodaySteps()
     {
-        TodaySteps.Clear(); // Assurez-vous que la liste est vide avant de la remplir à nouveau
+        TodaySteps.Clear(); // Make sure the list is empty before filling it again
 
         float previousDate = 0.0f;
 
         foreach (Step step in Steps)
         {
-            // Génère une nouvelle date aléatoire dans les limites spécifiées
+            // Generate a new random date within specified limits
             float randomDate = Mathf.Clamp(step.Date + Random.Range(-Punctuality, Punctuality), 0.0f, 24.0f);
 
-            // Assurez-vous que chaque date générée est supérieure ou égale à la date précédente
+            // Ensure each generated date is greater than or equal to the previous date
             randomDate = Mathf.Max(randomDate, previousDate);
 
-            // Ajoute la nouvelle étape à la liste des étapes pour aujourd'hui
+            // Add the new step to the list of steps for today
             TodaySteps.Add(new Step
             {
                 Name = step.Name,
@@ -67,7 +67,7 @@ public class Schedule : MonoBehaviour
                 Sleeping = step.Sleeping
             });
 
-            // Met à jour la date précédente pour la prochaine itération
+            // Update the previous date for the next iteration
             previousDate = randomDate;
         }
     }
@@ -82,8 +82,8 @@ public class Schedule : MonoBehaviour
         return false;
     }
 
-    private Quaternion standRotation; // Rotation debout
-    private Quaternion lieDownRotation; // Rotation allongée
+    private Quaternion standRotation; // Standing rotation
+    private Quaternion lieDownRotation; // Lying down rotation
 
     [Range(0, 1)]
     public float vigilance = 0;
@@ -94,7 +94,7 @@ public class Schedule : MonoBehaviour
         Area = currentStep.Area;
 
         //checks if he goes to work
-        if(currentStep.Name=="Work")
+        if (currentStep.Name == "Work")
         {
             houseManager.ToggleAllLights(false);
         }
@@ -102,13 +102,13 @@ public class Schedule : MonoBehaviour
 
     void Start()
     {
-        if(House!=null)
+        if (House != null)
         {
             houseManager = House.GetComponent<HouseManager>();
         }
         GenerateTodaySteps();
 
-        // Trouver le script TimeManager attaché à l'objet Clock
+        // Find the TimeManager script attached to the Clock object
         GameObject clockObject = GameObject.Find("Clock");
         if (clockObject != null)
         {
@@ -121,87 +121,85 @@ public class Schedule : MonoBehaviour
             Area = currentStep.Area;
         }
 
-        // Déterminer la rotation de départ (debout)
+        // Determine the starting rotation (standing)
         standRotation = transform.rotation;
 
-        // Calculer la rotation allongée en tournant vers le bas de 90 degrés autour de l'axe X
+        // Calculate lying down rotation by rotating down 90 degrees around the X axis
         lieDownRotation = Quaternion.Euler(90f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(TodaySteps.Count>currentStepIndex+1)
+        if (TodaySteps.Count > currentStepIndex + 1)
         {
-            if(timeManager.simulatedHour > TodaySteps[currentStepIndex + 1].Date)
+            if (timeManager.simulatedHour > TodaySteps[currentStepIndex + 1].Date)
             {
                 currentStepIndex++;
                 StepChange();
             }
         };
 
-        if(currentStepIndex > 0)
+        if (currentStepIndex > 0)
         {
-            if(timeManager.simulatedHour < TodaySteps[currentStepIndex].Date)
+            if (timeManager.simulatedHour < TodaySteps[currentStepIndex].Date)
             {
                 currentStepIndex = 0;
                 StepChange();
             }
         };
 
-        // Vérifier si le GameObject Area est défini
+        // Check if the GameObject Area is defined
         if (Area != null)
         {
-            // Vérifier si le personnage n'est pas déjà à l'intérieur de l'Area
+            // Check if the character is not already inside the Area
             if (!IsInsideArea() && !isSleeping)
             {
-                // Calculer la direction vers laquelle se déplacer
+                // Calculate the direction to move towards
                 Vector3 targetDirection = Area.transform.position - transform.position;
-                targetDirection.y = 0f; // Garder la direction sur le plan horizontal
+                targetDirection.y = 0f; // Keep the direction on the horizontal plane
 
-                // Normaliser la direction
+                // Normalize the direction
                 targetDirection.Normalize();
 
-                // Calculer la position vers laquelle se déplacer
-                Vector3 targetPosition = transform.position + targetDirection * speed * Time.deltaTime * timeManager.accTime ;
+                // Calculate the position to move towards
+                Vector3 targetPosition = transform.position + targetDirection * speed * Time.deltaTime * timeManager.accTime;
 
-                // Déplacer le personnage vers la position cible
+                // Move the character towards the target position
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime * timeManager.accTime);
 
-                // Calculer la rotation vers la direction du déplacement
+                // Calculate the rotation towards the direction of movement
                 Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
-                // Appliquer la rotation au personnage
+                // Apply the rotation to the character
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 0.01f * timeManager.accTime);
             }
             else
             {
-                // Vérifier si l'étape actuelle indique que le personnage doit dormir
+                // Check if the current step indicates that the character should sleep
                 if (currentStep != null && currentStep.Sleeping)
                 {
-                    // Le personnage s'allonge et ne peut plus se déplacer
+                    // The character lies down and can no longer move
                     isSleeping = true;
-                    // Rotation progressive vers la position allongée
+                    // Progressive rotation towards lying position
                     transform.rotation = Quaternion.Slerp(transform.rotation, lieDownRotation, Time.deltaTime * 0.5f * timeManager.accTime);
                     isStandingUp = false;
 
                 }
-                else if(!isStandingUp)
+                else if (!isStandingUp)
                 {
                     transform.rotation = Quaternion.Slerp(transform.rotation, standRotation, Time.deltaTime * 0.5f * timeManager.accTime);
-                    // Si la rotation est presque terminée
+                    // If the rotation is nearly complete
                     if (Quaternion.Angle(transform.rotation, standRotation) < 1f)
                     {
-                        // Remettre isSleeping à false
+                        // Set isSleeping back to false
                         isSleeping = false;
-                        // Mettre à jour la variable de contrôle de lever
+                        // Update the standing up control variable
                         isStandingUp = true;
                     }
 
                 }
             }
         }
-    //Debug.Log("Current step ("+currentStepIndex+"/"+TodaySteps.Count+"): "+currentStep.Name);
     }
 }
