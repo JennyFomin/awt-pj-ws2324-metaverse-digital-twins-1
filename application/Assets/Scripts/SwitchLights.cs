@@ -20,8 +20,8 @@ public class SwitchLights : MonoBehaviour
         return Physics.OverlapBox(transform.position, transform.localScale / 2, transform.rotation);
     }
 
-    // Vérifie si le script Schedule est présent dans la pièce et vérifie si la personne n'est pas endormie
-    private bool IsPersonAwake()
+    //Checks if Schedule script is in the room and checks if the attached person is not asleep
+        private bool IsPersonAwake()
     {
         Collider[] colliders = PresentPeople();
         foreach (Collider collider in colliders)
