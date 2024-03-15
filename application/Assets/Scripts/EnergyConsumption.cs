@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Energyconsumption : MonoBehaviour
 {
-    // Référence au script Lamp.cs attaché au même objet
+    // Reference to the Lamp.cs script attached to the same object
     private Lamp lampScript;
 
     // Power of the lamp
@@ -13,45 +13,37 @@ public class Energyconsumption : MonoBehaviour
     // Consumed energy in W.s
     private float energy = 0.0f;
 
-    //Obtain current energy value
+    // Obtain current energy value
     public float GetEnergy()
     {
         return energy;
     }
 
-    //Avoir l'accélération du temps
+    // Access the time acceleration
     private TimeManager timeManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        // Assurez-vous que le script Lamp.cs est attaché au même objet
         lampScript = GetComponent<Lamp>();
 
-        // Trouver le script TimeManager attaché à l'objet Clock
+        // Find the TimeManager script attached to the Clock object
         GameObject clockObject = GameObject.Find("Clock");
         if (clockObject != null)
         {
             timeManager = clockObject.GetComponent<TimeManager>();
         }
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Vérifiez si la lampe est allumée (TurnOn est vrai)
+        // Check if the lamp is turned on (TurnOn is true)
         if (lampScript != null && lampScript.TurnOn)
         {
-            // Calculez l'énergie consommée en Watt-seconde et ajoutez-la
+            // Calculate energy consumed in Watt-seconds and add it
             float energyConsumed = Power * Time.deltaTime * timeManager.accTime;
-            energy += energyConsumed;
-
-            // Vous pouvez également effectuer d'autres actions ici liées à la consommation d'énergie
-            // Par exemple, mettre à jour un panneau d'informations, déclencher des événements, etc.
-
-            
+            energy += energyConsumed; 
         }
-        //Debug.Log("Consumed energy : " + energy + " W.s");
     }
 }
