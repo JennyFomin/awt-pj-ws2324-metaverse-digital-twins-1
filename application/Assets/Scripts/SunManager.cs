@@ -21,11 +21,12 @@ public class SunManager : MonoBehaviour
     
     void Start()
     {
-        // Trouver la lumière directionnelle attachée à cet objet
+        // Find the attached directional light
         directionalLight = GetComponent<Light>();
 
-        // Trouver le script TimeManager attaché à l'objet Clock
+        // Find the script TimeManager attaches to Clock
         GameObject clockObject = GameObject.Find("Clock");
+
         if (clockObject != null)
         {
             timeManager = clockObject.GetComponent<TimeManager>();
