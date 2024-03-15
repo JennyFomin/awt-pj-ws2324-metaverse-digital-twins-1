@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class EnergyCompute : MonoBehaviour
 {
-    // Liste pour stocker les scripts Energyconsumption trouvés dans la scène
+    // List to store Energyconsumption scripts found in the scene
     public List<GameObject> Lamps;
+    
     public float GetTotalEnergy()
     {
         float totalEnergy = 0;
         
-
-        // Parcours de tous les scripts Energyconsumption dans la liste
+        // Iterates through all Energyconsumption scripts in the list
         foreach (GameObject lamp in Lamps)
         {
             Energyconsumption script = lamp.GetComponent<Energyconsumption>();
-
-            // Ajoute la valeur d'énergie de chaque script à la somme totale
+            
+            // Adds the energy value of each script to the total sum
             totalEnergy += script.GetEnergy();
         }
         return totalEnergy;
@@ -25,13 +25,10 @@ public class EnergyCompute : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        // Ajoute ces scripts à la liste
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Appelle la méthode pour recalculer la somme de toutes les valeurs d'énergie
     }
 }
