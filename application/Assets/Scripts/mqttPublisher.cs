@@ -53,7 +53,7 @@ public class MqttPublisher : MonoBehaviour
         mqttControllerObject = GameObject.Find("Controller");
         mqttControllerScript = mqttControllerObject.GetComponent<mqttController>();
         
-        // Start publishing at intervals of 10 seconds
+        // Start publishing at intervals of x seconds
         InvokeRepeating("PublishEnergyData", 0, energyPublishFrequency);
         InvokeRepeating("PublishSimulationData", 0, simulationPublishFrequency);
     }
