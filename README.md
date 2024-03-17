@@ -136,7 +136,7 @@ If you don't want to start the application using the bash script you can start i
 
 Linux
 ```
-mosquitto -c mosquitto.conf
+mosquitto -c messaging/mosquitto.conf
 ```
 Windows
 ```
