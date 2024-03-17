@@ -185,11 +185,12 @@ If you don't want to start the application using the bash script you can start i
 
 Linux
 ```
-mosquitto -c messaging/mosquitto.conf
+mosquitto -c mosquitto.conf
 ```
 Windows
 ```
-code...
+cd "C:/Program Files/mosquitto"
+./mosquitto -c mosquitto.conf
 ```
 
 **OPTIONAL: Test mqtt connection**
@@ -201,7 +202,8 @@ mosquitto_sub -h localhost -t "#" -v
 ```
 Windows
 ```
-code...
+cd "C:/Program Files/mosquitto"
+./mosquitto_sub -h localhost -t "#" -v
 ```
 2. Open another terminal and publish a test message to the broker. This message should be seen in the subscriber terminal from above.
 
@@ -211,7 +213,8 @@ mosquitto_pub -h localhost -t "test_topic" -m 'Hello, Mosquitto!'
 ```
 Windows
 ```
-code...
+cd "C:/Program Files/mosquitto"
+./mosquitto_pub -h localhost -t "test_topic" -m 'Hello, Mosquitto!'
 ```
 
 **2. Start mongodb server**
@@ -222,7 +225,7 @@ sudo systemctl start mongod
 ```
 Windows
 ```
-code...
+'C:\mongodb\bin\mongod.exe'
 ```
 **3. Built the communication between mongodb and the mqtt broker in order to store the data**
 
@@ -232,7 +235,7 @@ python3 MongoDBbridge.py
 ```
 Windows
 ```
-code...
+python3 MongoDBbridge.py
 ```
 
 **OPTIONAL: If you want to monitor the data received by the mongodb you can connect mongodb compass to the database with the following adress:**
@@ -248,7 +251,7 @@ python3 LightSimulation.py
 ```
 Windows
 ```
-code...
+python3 LightSimulation.py
 ```
 
 **5. Start the unity3d digital twin application by executing the following file**
