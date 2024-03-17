@@ -7,6 +7,10 @@ This project utilizes Unity3D to create a Digital Twin simulation of a smart hom
 
 # Project Structure
 
+- `setup.sh`: Installs all required technologies and packages
+- `start.sh`: Starts the iot simulation, the mqtt communication and the mongodb
+- `stop.sh`: Stops the iot simulation, the mqtt communication and the mongodb
+
 **Directory:**
 
 ```application/Assets```
@@ -89,6 +93,7 @@ This script will install the follwing requirements:
 - Mosquitto MQTT
 - MongoDB
 - MongoDB Compass
+- tmux
 
 and librarys (also listed in requirements.txt):
 - matplotlib
@@ -110,11 +115,19 @@ This will
 
 **4. Start the unity3d digital twin application by executing the following file**
 
+Linux
+```
+EnergyMonitoringDigitalTwin.deb
+```
 Windows
 ```
 EnergyMonitoringDigitalTwin.exe
 ```
+**To stop the application simply close the unity3d exe and run the following script in a new terminal**
 
+```
+./stop.sh
+```
 
 ## Manual User Guide
 If you don't want to start the application using the bash script you can start it by following the next setps.
@@ -194,4 +207,19 @@ code...
 Windows
 ```
 EnergyMonitoringDigitalTwin.exe
+```
+**4. Start the unity3d digital twin application by executing the following file**
+
+Linux
+```
+EnergyMonitoringDigitalTwin.deb
+```
+Windows
+```
+EnergyMonitoringDigitalTwin.exe
+```
+**To stop the application simply close the unity3d exe and run the following script in a new terminal**
+
+```
+./stop.sh
 ```
