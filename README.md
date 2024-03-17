@@ -17,14 +17,56 @@ This project utilizes Unity3D to create a Digital Twin simulation of a smart hom
 
 Subdirectorys
 
-```M2MqttUnity```
+Free Assets
 
-- `BrokerSettings.cs`: ...
-- `M2MqttUnityClients.cs`: ...
+```Furnished Cabin```
+- Home architecture and inside and furnishings
+- Source : https://assetstore.unity.com/packages/3d/environments/urban/furnished-cabin-71426
+
+```genSuit```
+- Character design
+- Source : https://assetstore.unity.com/packages/3d/characters/humanoids/suit-character-pack-generic-16772
+
+```SimplePoly City - Low Poly Assets```
+- City background visual environment
+- Source : https://assetstore.unity.com/packages/3d/environments/simplepoly-city-low-poly-assets-58899
 
 ```Lamp Assets```
-- `filename`: ...
-- `filename`: ...
+- Lamp design and script to turn lamps on and off
+- Source : https://assetstore.unity.com/packages/3d/props/interior/lamp-model-110960
+
+```M2Mqtt``` & ```M2MqttUnity```
+- Usage of MQTT brokers into Unity
+- Source : https://github.com/eclipse/paho.mqtt.m2mqtt
+
+Self-written Folders
+
+```Materials``` (visible when the PFB_Building_Full object is disabled)
+-`BathroomFloor.mat` : Blue material of the Bathroom floor 
+-`BedroomFloor.mat` : Green material of the Bedroom floor
+-`CorridorFloor.mat` : Yellow material of the Corridor floor
+-`LivingRoomFloor.mat` : Red material of the Living Room floor
+
+```Resources```
+-`BillingMode.json` : The billing variables (unused)
+
+```Scenes```
+-`SimpleScene.unity` : The scene of the project that has to be run
+
+```Scripts```
+- `EnergyCompute.cs`: Script attached to House objects to compute its total energy consumption through the simulation
+- `EnergyConsumption.cs`: Script attached to Lamp objects to define its own energy consumption
+- `energyData.cs`: Script describing the data value columns stored about the energy momentarily
+- `HouseManager.cs`: Script attached to House objects to define the behavior of its smart device (light sensor)
+- `mqttController.cs`: Script attached to Controller object to link the receiver data and the clock parameters
+- `mqttPublisher.cs`: Script attached to Publisher object to publish the data to the MQTT broker
+- `mqttReceiver.cs`: Script attached to Receiver object to receive the data from the MQTT broker
+- `Schedule.cs`: Script attached to Person object to describe its behavior
+- `simulationData.cs`: Script describing the data value columns stored about the overall simulation
+- `SunManagement.cs`: Script attached to Directional Light object to control its intensity depending on the intensity received from the light sensor 
+- `SwitchLights.cs`: Script attached to Room object to control the behavior of the people entering, leaving or sleeping in a room
+- `TimeManagement.cs`: Script attached to Clock object to describe how does the time flow in the simulation
+
 
 **Directory:**
 
