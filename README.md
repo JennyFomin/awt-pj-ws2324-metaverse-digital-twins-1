@@ -22,76 +22,176 @@ Subdirectorys
 - `filename`: ...
 - `filename`: ...
 
-# INSTALLATIONS
+**Directory:**
 
-## Librarys
-pip install psutil
-pip install pymongo
-pip install paho-mqtt
+```messaging```
+- `mosquitto.conf`: Contains the default MQTT broker port configuration 
 
-## Mosquitto installation
+**Directory:**
+
+```simulation```
+- `LightSimulation.py`: Contains IoT device simulation for the light sensor and the light bulbs 
+
+**Directory:**
+
+```storage/scripts```
+- `MongoDBbridge.py`: Builds the connection between the MQTT broker and MongoDB in order to store  energy data
+
+**Directory:**
+
+```storage/database exports```
+Holds in all exported database collection from MongoDB. It contains...
+- The generated IoT simulation data from the LighSimulation.py script
+- The calculated energy consumption from the Digital Twin unity application 
+- The simulation experiment results for 24 and 96 hours
+
+**Directory:**
+
+```performance/scripts```
+- `MeasureGpuPerformance.ps1`: Powershell script to measure GPU performace during simulation for windows
+- `MeasureMemoryCpuPerformance.py`: script to measure gpu performace during simulation for Mac/Linux
+- `VisualizeGpuUsage.py`: Creates a diagram to visualize measured gpu usage
+- `VisualizeMemoryCpuUsage.py`: Creates a diagram to visualize measured memory and cpu usage
+
+### Dependencies
+
+Ensure you have the following requirements:
+
+   - Shell environment with `git` and `pyhton3-pip` 
+
+### Prerequesite
+
+
+If you are working with windows it is assumed to have at least `windows 10 or higher` and to use `windows subsytem for linux (WSL)` 
+
+## User Guide
+
+To setup and run the digital twin simulation follow the instructions:
+
+
+**1. Clone the repository**
+
 ```
-sudo add-apt-repository ppa:mosquitto-dev/mosquitto-ppa
+git clone https://github.com/JennyFomin/awt-pj-ws2324-metaverse-digital-twins-1.git
 ```
 
-sudo apt install mosquitto mosquitto-clients
+**2. Make the bash scripts executable**
+```
+chmod +x setup.sh start.sh stop.sh
+```
+**3. Run the setup.sh script to install required technologies and librarys**
 
-## MongoDB installation
-https://www.mongodb.com/docs/manual/administration/install-community/
+```
+./setup.sh
+```
 
-# MongoDB Compass installation
-https://www.mongodb.com/try/download/compass
+This script will install the follwing requirements:
+- Mosquitto MQTT
+- MongoDB
+- MongoDB Compass
 
-## VSCode extensions
-- SQLite Viewer 
-- Python
-- Pylance
+and librarys (also listed in requirements.txt):
+- matplotlib
+- paho_mqtt
+- pandas
+- psutil
+- pymongo
 
-# START SIMULATION
+**3. Run the start.sh script to start the backend application**
 
-# start performance measurements scripts
-.\total-gpu.ps1
-python3 memory-usage.py
+```
+./start.sh
+```
+This will
+- start the mqtt broker with the given configuration
+- start the mongodb server
+- built a communication bridge between mongodb and the mqtt broker
+- start the iot device simulation
 
-## start mosquitto
-mosquitto -c mosquitto.conf 
+**4. Start the unity3d digital twin application by executing the following file**
 
-## (start subscriber in console)
+Windows
+```
+EnergyMonitoringDigitalTwin.exe
+```
+
+
+## Manual User Guide
+If you don't want to start the application using the bash script you can start it by following the next setps.
+
+**1. Start mosquitto mqtt with the given configuration**
+
+Linux
+```
+mosquitto -c mosquitto.conf
+```
+Windows
+```
+code...
+```
+
+**OPTIONAL: Test mqtt connection**
+1. Open a new terminal and start a subscriber by subscribing to all topics
+
+Linux
+```
 mosquitto_sub -h localhost -t "#" -v
+```
+Windows
+```
+code...
+```
+1. Open another terminal and publish a test message to the broker. This message should be seen in the subscriber terminal from above.
 
-## (Test publisher (message should to all subscriber -> console and DB))
+Linux
+```
 mosquitto_pub -h localhost -t "test_topic" -m 'Hello, Mosquitto!'
+```
+Windows
+```
+code...
+```
 
-## start mongodb
+**2. Start mongodb server**
+
+Linux
+```
 sudo systemctl start mongod
+```
+Windows
+```
+code...
+```
+**3. Built the communication between mongodb and the mqtt broker in order to store the data**
 
-## run database bridge script
-python3 mongoDB-bridge.py
+Linux
+```
+python3 MongoDBbridge.py
+```
+Windows
+```
+code...
+```
 
-## connect mongoDB compass to database
+**OPTIONAL: If you want to monitor the data received by the mongodb you can connect mongodb compass to the database with the following adress:**
+
+```
 URI: mongodb://localhost:27017
+```
+**4. Start the iot device simulation**
 
-## start unity application
-
-## start device simulation
+Linux
+```
 python3 LightSimulation.py
+```
+Windows
+```
+code...
+```
 
-# AFTER SIMULATION
+**4. Start the unity3d digital twin application by executing the following file**
 
-## export database as csv file
-export data -> export query results -> "all fields" + next -> "csv" + export 
-
-## run visualisation scripts
-python3 visualize-energy-data.py
-python3 visualize-memory-usage.py
-python3 visualize-gpu-usage.py
-
-# STOP SIMULATION
-
-## stop Mosquitto
-sudo systemctl stop mosquitto
-
-## stop MongoDB
-sudo systemctl stop mongod
-
-## stop unity application
+Windows
+```
+EnergyMonitoringDigitalTwin.exe
+```
