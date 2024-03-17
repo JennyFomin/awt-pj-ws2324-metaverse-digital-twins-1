@@ -19,10 +19,10 @@ mongo_db_name = 'SmartHomeDB'
 
 mqtt_broker = "localhost"
 mqtt_port = 1883
-mqtt_topic_energy_data = "smart_home/energy_data"  # Erstes Topic
-mqtt_topic_simulation_data = "smart_home/simulation_data"  # Neues Topic
-mqtt_topic_energy_data_DT = "smart_home/energy_data_DT"  # Erstes Topic
-mqtt_topic_simulation_data_DT = "smart_home/simulation_data_DT"  # Neues Topic
+mqtt_topic_energy_data = "smart_home/energy_data"  
+mqtt_topic_simulation_data = "smart_home/simulation_data" 
+mqtt_topic_energy_data_DT = "smart_home/energy_data_DT"  
+mqtt_topic_simulation_data_DT = "smart_home/simulation_data_DT"
 
 def connect_to_mongodb():
     client = pymongo.MongoClient(mongo_host, mongo_port)
