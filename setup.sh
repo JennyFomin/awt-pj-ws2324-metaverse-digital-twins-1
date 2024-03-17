@@ -36,21 +36,23 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 echo -n "Installing Mosquitto MQTT..."
-(sudo apt-get update > /dev/null 2>&1 && sudo apt-get install -y mosquitto > /dev/null 2>&1) & spinner
+(sudo apt-get update > /dev/null && sudo apt-get install -y mosquitto > /dev/null) & spinner
 echo "done."
 
 echo -n "Installing MongoDB..."
-(sudo apt-get install -y mongodb > /dev/null 2>&1) & spinner
-echo "done."
-
-echo -n "Installing MongoDB Compass..."
-(wget https://downloads.mongodb.com/compass/mongodb-compass_1.26.1_amd64.deb > /dev/null 2>&1 && sudo dpkg -i mongodb-compass_1.26.1_amd64.deb > /dev/null 2>&1 && sudo apt-get install -f > /dev/null 2>&1) & spinner
+(sudo wget https://downloads.mongodb.com/compass/mongodb-mongosh_2.2.0_amd64.deb > /dev/null) & spinner
+(sudo dpkg -i mongodb-mongosh_2.2.0_amd64.deb > /dev/null) & spinner
+(sudo apt-get install -f > /dev/null) & spinner
 echo "done."
 
 echo -n "Installing tmux..."
-(sudo apt-get install -y tmux > /dev/null 2>&1) & spinner
+(sudo apt-get install -y tmux > /dev/null) & spinner
 echo "done."
 
 echo -n "Installing required Python packages..."
-(pip3 install -r requirements.txt > /dev/null 2>&1) & spinner
+(pip3 install -r requirements.txt > /dev/null) & spinner
 echo "done."
+
+
+
+https://downloads.mongodb.com/compass/mongodb-mongosh_2.2.0_amd64.deb
