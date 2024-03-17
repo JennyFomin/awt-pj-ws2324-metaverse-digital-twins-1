@@ -18,9 +18,10 @@ import paho.mqtt.client as mqtt
 mqtt_broker = "localhost"
 mqtt_port = 1883
 mqtt_topic = "smart_home/light_sensor"
-control_topic = "light_control"
+control_topics = ["light_control_1", "light_control_2", "light_control_3",
+                  "light_control_4", "light_control_5", "light_control_6"]
 
-artificial_light_on = False
+artificial_lights = [False,False,False,False,False,False]
 
 # Lock for synchronizing access to shared variables
 lock = threading.Lock()
@@ -28,22 +29,27 @@ lock = threading.Lock()
 # initialize MQTT Client 
 mqtt_client = mqtt.Client()
 
+
 def on_connect(client, userdata, flags, rc):
     print(f"Connected with mqtt broker with the id: {rc}")
+    for topic in control_topics:
+        client.subscribe(topic)
+
 
 def on_message(client, userdata, msg):
-    global artificial_light_on
+
     payload = msg.payload.decode("utf-8")
 
-    #control light based on feedback from digital twin
-    if msg.topic == control_topic:
-        with lock:
-            if payload.lower() == "on":
-                artificial_light_on = True
-                print("Artificial Light is ON")
-            elif payload.lower() == "off":
-                artificial_light_on = False
-                print("Artificial Light is OFF")
+    # control light based on feedback from digital twin
+    for i in range(0, len(control_topics)):
+        if msg.topic == control_topics[i]:
+            with lock:
+                if payload.lower() == "on":
+                    artificial_lights[i] = True
+                    print("Turn light " + str(i + 1) + " on")
+                elif payload.lower() == "off":
+                    artificial_lights[i] = False
+                    print("Turn light" + str(i + 1) + " off")
 
 
 # set Callback function
@@ -57,12 +63,15 @@ mqtt_client.connect(mqtt_broker, mqtt_port, 60)
 mqtt_client.loop_start()
 
 # Publish the simulated data to the sensor topic
+
+
 def publish_data(time_of_day, total_light_intensity):
     # create message as JSON-String
     message = f'{{"time_of_day": {time_of_day}, "total_light_intensity": {total_light_intensity}}}'
 
     mqtt_client.publish(mqtt_topic, message)
     print(f"Veröffentlichte Daten: {message}")
+
 
 def simulate_light_sensor():
     while True:
@@ -75,14 +84,16 @@ def simulate_light_sensor():
         else:  # Nighttime
             intensity = random.randint(0, 150)  
 
-        scaledIntensity = float(intensity) / float(1023)
-       
-        publish_data(time_of_day, scaledIntensity)
+        scaled_intensity = float(intensity) / float(1023)
 
-        print(f"Time of Day: {time_of_day}, Total Light Intensity: {scaledIntensity}")
+        publish_data(time_of_day, scaled_intensity)
+
+        print(f"Time of Day: {time_of_day}, Total Light Intensity: {scaled_intensity}")
         time.sleep(10)
 
 # Change sunlight mode every two minutes
+
+
 def sunlight_change():
     while True:
         with lock:
@@ -90,6 +101,8 @@ def sunlight_change():
         time.sleep(120)
 
 # Read user input to control the artificial light
+
+
 def user_input():
     global artificial_light_on
     while True:
@@ -104,8 +117,9 @@ def user_input():
             else:
                 print("Invalid command. Enter 'on' or 'off'.")
 
+
 def scenario1():
-    global artificial_light_on
+
     while(True):
         for _ in range(144):  # Simulate a full 24-hour day (144 intervals of 10 seconds each)
             # Simulate different light sources and conditions
@@ -117,13 +131,14 @@ def scenario1():
             else:  # Nighttime
                 intensity = random.randint(0, 200) 
 
-            scaledIntensity = float(intensity) / float(1023)
+            scaled_intensity = float(intensity) / float(1023)
 
-            publish_data(time_of_day, scaledIntensity)
+            publish_data(time_of_day, scaled_intensity)
 
-            print(f"Time of Day: {time_of_day}, Total Light Intensity: {scaledIntensity}")
+            print(f"Time of Day: {time_of_day}, Total Light Intensity: {scaled_intensity}")
 
             time.sleep(10)
+
 
 # Create and start threads for simulating light sensor and changing sunlight
 user_input_thread = threading.Thread(target=user_input)
