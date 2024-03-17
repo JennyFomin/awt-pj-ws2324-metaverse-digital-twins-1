@@ -154,7 +154,7 @@ Windows
 ```
 code...
 ```
-1. Open another terminal and publish a test message to the broker. This message should be seen in the subscriber terminal from above.
+2. Open another terminal and publish a test message to the broker. This message should be seen in the subscriber terminal from above.
 
 Linux
 ```
@@ -202,13 +202,7 @@ Windows
 code...
 ```
 
-**4. Start the unity3d digital twin application by executing the following file**
-
-Windows
-```
-EnergyMonitoringDigitalTwin.exe
-```
-**4. Start the unity3d digital twin application by executing the following file**
+**5. Start the unity3d digital twin application by executing the following file**
 
 Linux
 ```
