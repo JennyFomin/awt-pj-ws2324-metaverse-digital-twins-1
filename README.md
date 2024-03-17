@@ -1,3 +1,27 @@
+# Advanced Web Technologies Project WS23/24 - TU Berlin
+### awt-pj-ws2324-metaverse-digital-twins-1
+
+![alt text](final-architecture.jpg)
+
+This project utilizes Unity3D to create a Digital Twin simulation of a smart home, incorporating MQTT protocol to simulate interactions between IoT devices, aiming to optimize energy efficiency and streamline smart home management.
+
+# Project Structure
+
+**Directory:**
+
+```application/Assets```
+
+Subdirectorys
+
+```M2MqttUnity```
+
+- `BrokerSettings.cs`: ...
+- `M2MqttUnityClients.cs`: ...
+
+```Lamp Assets```
+- `filename`: ...
+- `filename`: ...
+
 # INSTALLATIONS
 
 ## Librarys
