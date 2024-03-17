@@ -25,5 +25,5 @@ plt.grid(True)
 # adjust date and time formatting
 plt.xticks(rotation=45)
 plt.tight_layout()
-plt.savefig('results/gpu-performance.png')
+plt.savefig('../results/gpu-performance.png')
 

@@ -14,7 +14,7 @@ import time
 from datetime import datetime
 
 # Configuration
-output_csv = 'results/memory_cpu_usage.csv'  
+output_csv = '../results/memory_cpu_usage.csv'  
 monitor_interval = 20  
 process_names = ['Unity3d', 'python3', 'mosquitto'] 
 

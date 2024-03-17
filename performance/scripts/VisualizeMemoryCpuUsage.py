@@ -38,6 +38,6 @@ axs[1].legend()
 
 # adjust date and time formatting
 plt.tight_layout()
-plt.savefig('results/memory-cpu-performance.png')
+plt.savefig('../results/memory-cpu-performance.png')
 plt.show()
 

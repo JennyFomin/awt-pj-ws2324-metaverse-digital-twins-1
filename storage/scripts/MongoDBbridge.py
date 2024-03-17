@@ -15,7 +15,7 @@ from datetime import datetime
 
 mongo_host = 'localhost'
 mongo_port = 27017
-mongo_db_name = 'smart_home_db'
+mongo_db_name = 'SmartHomeDB'
 
 mqtt_broker = "localhost"
 mqtt_port = 1883
@@ -45,13 +45,13 @@ def on_message(client, userdata, msg):
 
     # choose collection according to the topic the message received from
     if msg.topic == mqtt_topic_energy_data:
-        collection = db['energy_data']
+        collection = db['EnergyData']
     elif msg.topic == mqtt_topic_simulation_data:
-        collection = db['simulation_data']
+        collection = db['SimulationData']
     elif msg.topic == mqtt_topic_simulation_data_DT:
-        collection = db['simulation_data_DT']
+        collection = db['SimulationDataDT']
     elif msg.topic == mqtt_topic_energy_data_DT:
-        collection = db['energy_data_DT']
+        collection = db['EnergyDataDT']
 
     # store data in chosen db collection
     result = collection.insert_one(message)
