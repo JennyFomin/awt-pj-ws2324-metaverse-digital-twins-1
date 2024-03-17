@@ -10,14 +10,13 @@ This project utilizes Unity3D to create a Digital Twin simulation of a smart hom
 - `setup.sh`: Installs all required technologies and packages
 - `start.sh`: Starts the iot simulation, the mqtt communication and the mongodb
 - `stop.sh`: Stops the iot simulation, the mqtt communication and the mongodb
+- `requirements.txt`: Required python packages
 
 **Directory:**
 
 ```application/Assets```
 
-Subdirectorys
-
-Free Assets
+Free Assets:
 
 ```Furnished Cabin```
 - Home architecture and inside and furnishings
@@ -39,21 +38,29 @@ Free Assets
 - Usage of MQTT brokers into Unity
 - Source : https://github.com/eclipse/paho.mqtt.m2mqtt
 
-Self-written Folders
+**Directory:** 
+(Self-written Folders)
 
-```Materials``` (visible when the PFB_Building_Full object is disabled)
--`BathroomFloor.mat` : Blue material of the Bathroom floor 
--`BedroomFloor.mat` : Green material of the Bedroom floor
+```application/Assets/Materials``` (visible when the PFB_Building_Full object is disabled)
+
+- `BathroomFloor.mat` : Blue material of the Bathroom floor 
+- `BedroomFloor.mat` : Green material of the Bedroom floor
 -`CorridorFloor.mat` : Yellow material of the Corridor floor
--`LivingRoomFloor.mat` : Red material of the Living Room floor
+- `LivingRoomFloor.mat` : Red material of the Living Room floor
 
-```Resources```
--`BillingMode.json` : The billing variables (unused)
+**Directory:** 
 
-```Scenes```
--`SimpleScene.unity` : The scene of the project that has to be run
+```application/Assets/Resources```
+- `BillingMode.json` : The billing variables (unused)
 
-```Scripts```
+**Directory:** 
+
+```application/Assets/Scenes```
+- `SimpleScene.unity` : The scene of the project that has to be run
+
+**Directory:** 
+
+```application/Assets/Scripts```
 - `EnergyCompute.cs`: Script attached to House objects to compute its total energy consumption through the simulation
 - `EnergyConsumption.cs`: Script attached to Lamp objects to define its own energy consumption
 - `energyData.cs`: Script describing the data value columns stored about the energy momentarily
